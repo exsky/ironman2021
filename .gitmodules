@@ -1,0 +1,3 @@
+[submodule "daradish"]
+	path = daradish
+	url = git@github.com:rita0124/daradish.git
