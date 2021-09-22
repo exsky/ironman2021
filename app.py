@@ -15,7 +15,7 @@ def get_log_content():
 
 
 def send_quicknews_to_subscriber():
-    gen_mail_ini()
+    #gen_mail_ini()
     now = datetime.now()
     title = 'EXSKY 鐵人賽的 發信程式 - {}'.format(now.strftime('%Y-%m-%d %H:%M'))
     content = get_log_content()
