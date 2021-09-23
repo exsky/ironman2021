@@ -12,9 +12,10 @@ init:
 
 install-env:
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-	apt-get update -y unzip
+	apt-get update
+	apt-get install -y unzip
 	unzip awscliv2.zip
-	./aws/install
+	./aws/install --update
 
 pull:
 	git pull
