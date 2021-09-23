@@ -2,7 +2,13 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - make init
+      - make install-pippkg
       - make install-env
   build:
     commands:
       - make run
+artifacts:
+  files:
+    - running.log
+  name: $(date +%Y-%m-%d)-running.log

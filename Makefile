@@ -2,13 +2,20 @@ CURR_DIR		:=	$(shell pwd)
 NEW_TAG			=	$(shell date +"%Y%m%d%H%M")
 LATEST_IMGID	= 	$(shell docker images htc-report-safe-builder -q)
 
-.PHONY: all init install-env pull pull-img build-dev-img run run-server stop clean
+.PHONY: all init install-pippkg update-pippkg install-env pull pull-img build-dev-img run run-server stop clean
 
 all:
 
 init:
-	pyenv local 3.9.7
-	pipenv shell
+	pyenv install 3.9.6
+
+install-pippkg:
+	pyenv local 3.9.6
+	pip install -r requirements.txt
+
+update-pippkg:
+	pipenv sync
+	pipenv run pip freeze > requirements.txt
 
 install-env:
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -27,6 +34,7 @@ build-dev-img:
 	docker build -t daradish-builder . --no-cache
 
 run:
+	pyenv local 3.9.6
 	python app.py
 
 run-server:
