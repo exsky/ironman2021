@@ -33,7 +33,7 @@ if __name__ == '__main__':
     try:
         app_log.info('跑跑跑!!')
         # mail to maintainer
-        send_quicknews_to_subscriber()
         gen_aws_credential()
+        send_quicknews_to_subscriber()
     except Exception as e:
         app_log.exception(e)
