@@ -1,9 +1,14 @@
-FROM httpd
+FROM alpine
 MAINTAINER exsky <sky@nipapa.tw>
 
-ENV TZ=Asia/Taipei
-WORKDIR /usr/local/apache2/htdocs/
-ADD ./daradish/ /usr/local/apache2/htdocs/
-RUN ["make", "pull"]
+# Install python/pip
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 make bash && ln -sf python3 /usr/bin/python
+RUN python3 -m ensurepip
+RUN pip3 install --no-cache --upgrade pip setuptools
+
+WORKDIR /source
+ADD . /source
+RUN ["make", "install-pippkg"]
 
 CMD ["make", "run"]

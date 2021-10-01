@@ -1,8 +1,7 @@
 CURR_DIR		:=	$(shell pwd)
 NEW_TAG			=	$(shell date +"%Y%m%d%H%M")
-LATEST_IMGID	= 	$(shell docker images htc-report-safe-builder -q)
 
-.PHONY: all add_cred init install-pippkg update-pippkg install-pyenv install-env pull pull-img build-image build-dev-img run run-server stop clean
+.PHONY: all add_cred init install-pippkg update-pippkg install-pyenv install-env pull run run-server stop clean pull-img build-img build-dev-img push-image
 
 all:
 
@@ -37,15 +36,6 @@ install-env:
 pull:
 	git pull
 
-pull-img:
-	docker pull httpd
-
-build-img:
-	docker build -t daradish-server . --no-cache
-
-build-dev-img:
-	docker build -f Dockerfile.python -t daradish-builder . --no-cache
-
 run:
 	python app.py
 
@@ -57,3 +47,19 @@ stop:
 
 clean:
 	docker rm daradish-server
+
+pull-img:
+	docker pull httpd
+
+build-img:
+	docker build -t news-grabber . --no-cache
+
+build-dev-img:
+	docker build -f Dockerfile.python -t daradish-builder . --no-cache
+
+push-image:
+	aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 999999999999.dkr.ecr.ap-northeast-1.amazonaws.com
+	docker tag news-grabber:latest 999999999999.dkr.ecr.ap-northeast-1.amazonaws.com/news-grabber:latest
+	docker tag news-grabber:latest 999999999999.dkr.ecr.ap-northeast-1.amazonaws.com/news-grabber:${NEW_TAG}
+	docker push 999999999999.dkr.ecr.ap-northeast-1.amazonaws.com/news-grabber:latest
+	docker push 999999999999.dkr.ecr.ap-northeast-1.amazonaws.com/news-grabber:${NEW_TAG}
