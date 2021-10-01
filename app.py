@@ -10,15 +10,17 @@ app_log = log('app')
 
 
 def get_log_content():
-    with open('running.log', 'r') as file:
+    with open('news/news_quick.txt', 'r') as file:
         data = file.read()
+        data += "===== Log =====\n"
+    with open('running.log', 'r') as file:
+        data += file.read()
         return data
 
 
 def send_quicknews_to_subscriber():
-    gen_mail_ini()
     now = datetime.now()
-    title = 'EXSKY 鐵人賽的 發信程式 - {}'.format(now.strftime('%Y-%m-%d %H:%M'))
+    title = '即時風向 - {}'.format(now.strftime('%Y-%m-%d %H:%M'))
     content = get_log_content()
     mail = ms(title, content)
     print('Mail ready ...')
